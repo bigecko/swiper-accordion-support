@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>accrodion</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="./demo-style.css" />
+  <style>
+    html:has(.drawer-toggle:checked) {
+      scrollbar-gutter: auto;
+    }
+    .swiper {
+      width: 100%;
+      .swiper-slide { 
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        img { object-fit: cover; width: 100%; }
+      }
+    }
+
+    .vp-switch  {
+      .join-item {
+        background-repeat: no-repeat;
+        background-size: 30%;
+        background-position: center center;
+      }
+      .vp-desktop {
+        background-image: url(./images/icon-display.svg);
+      }
+      .vp-laptop {
+        background-image: url(./images/icon-laptop.svg);
+        background-size: 35%;
+      }
+      .vp-tablet {
+        background-image: url(./images/icon-tablet.svg);
+        background-size: 26%;
+      }
+    }
+
+    #swiper-wrapper {
+      &.vp-desktop {
+        width: 100%;
+      }
+      &.vp-laptop {
+        width: 1024px;
+      }      
+      &.vp-tablet {
+        width: 640px;
+      }      
+    }
+  </style>
+</head>
+
+<body>
+  <div class="flex w-full h-screen items-center justify-center">
+    <div class="flex w-[1600px] min-h-[600px] gap-5 relative flex-wrap">
+
+      <div class="drawer 2xl:drawer-open overflow-hidden">
+        <input id="control-drawer" type="checkbox" class="drawer-toggle" />
+
+        <div class="carousel-demo drawer-content select-none flex flex-col pl-5 pr-5 items-center">
+          <div class="flex justify-center h-16 relative w-full">
+            <label for="control-drawer" class="btn btn-square drawer-button absolute top-0 left-0 2xl:hidden">
+              <svg class="w-[16px] fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+            </label>
+
+            <div class="vp-switch join">
+              <input class="vp-desktop join-item btn w-16" type="radio" checked name="vp-size" value="desktop" onchange="handleVPChange(this)" />
+              <input class="vp-laptop join-item btn w-16" type="radio" name="vp-size" value="laptop" onchange="handleVPChange(this)"/>
+              <input class="vp-tablet join-item btn w-16" type="radio" name="vp-size" value="tablet" onchange="handleVPChange(this)" />
+            </div>
+          </div>
+
+          <div id="swiper-wrapper" class="vp-desktop h-[600px] p-4 border border-base-300 bg-base-100 rounded-lg">
+            <div class="swiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="./images/img1.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/img2.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/img3.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/img4.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/img5.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/img6.jpg" alt=""></div>
+              </div>
+          
+              <!-- Add Navigation -->
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+
+        </div>
+
+          <!-- demo controls -->
+        <div class="drawer-side h-full absolute z-10">
+          <label for="control-drawer" aria-label="close sidebar" class="drawer-overlay"></label> 
+          
+          <div class="flex flex-col w-[320px] pl-2 pr-2  h-full pt-16 2xl:bg-base-100 bg-neutral-content">
+            <code>slideAspect: <strong id="value-slideAspect"></strong></code>
+            <div class="flex items-center gap-2">
+              <label class="cursor-pointer label gap-2">
+                <input id="input-slideAspect-auto" type="checkbox" class="checkbox checkbox-secondary checkbox-sm" onchange="render()" />
+                <span class="label-text">auto</span>
+              </label>
+              <div class="flex items-center gap-1 input-slideAspect-num">
+                <label class="input input-bordered flex items-center gap-1 input-sm">
+                  <code>W:</code><input id="input-slideAspect-w" class="w-[32px]" type="number" min="1" value="9" onchange="render()"  />
+                </label>
+                <code>/</code>
+                <label class="input input-bordered flex items-center gap-1 input-sm">
+                  <code>H:</code><input id="input-slideAspect-h" class="w-[32px]" type="number" min="1" value="6" onchange="render()" />
+                </label>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <code>gap: <span><strong id="value-gap"></strong></span></code>
+            <input id="input-gap" type="range" min="10" max="100" value="30" class="range range-secondary range-xs" oninput="render()" />
+            <div class="divider"></div>
+
+            <code>slidesShow: <span><strong id="value-slidesShow"></strong></span></code>
+            <input id="input-slidesShow" type="range" min="2" max="5" value="3" class="range range-secondary range-xs" oninput="render()" />
+            <div class="divider"></div>
+
+            <code>collapsedWidth: <span><strong id="value-collapsedWidth"></strong></span></code>
+            <input id="input-collapsedWidth" type="range" min="0" max="30" value="12" class="range range-secondary range-xs" oninput="render()" />
+            <div class="h-3"></div>
+            <select id="collapsedWidth-unit" class="select select-bordered select-sm w-full max-w-xs"
+              onchange="render()">
+              <option value="pc">collapsedWidth in %</option>
+              <option value="px">collapsedWidth in px</option>
+            </select>
+            <div class="divider"></div>
+
+            <div class="flex content-center gap-3">
+              <input id="input-autoplay" type="checkbox" class="toggle toggle-success" checked onchange="render()" />
+              <label for="input-autoplay"><code>autoplay:</code> <strong id="value-autoplay"></strong></label>
+            </div>
+            <div class="h-5"></div>
+
+            <button id="btn-apply" class="btn btn-primary" onclick="initSwiper()">Apply</button>
+          </div>
+        
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.js"></script>
+  <script src="./SwiperAccordionPlugin.js"></script>
+  <script src="./demo.js"></script>
+
+</body>
+
+</html>
